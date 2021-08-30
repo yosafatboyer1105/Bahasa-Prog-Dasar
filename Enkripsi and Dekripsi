@@ -1,0 +1,158 @@
+C++ Project, the project is about making a program that can encrypts your input from plain text to a cipher text. 
+using function and procedure. 
+
+
+// 1 FILES, MAIN FILES. 
+
+#include <iostream>        // Note : pkey itu untuk nilai indeks kunci (pointer key )
+#include <string.h>        // nampung cip = variabel untuk menampung ciphertext yang berada dalam kondisi for ( inisialisasi dari j >> nampungcip )       
+#include <stdio.h>         // nampung key = variabel untuk menampung nilai key yang tadinya mengalami increment karena berada dalam kondisi for ( inisialisasi dari j counter >> nampungkey )
+using namespace std;       
+// coba bre
+
+                        
+void dekripsi() {    
+    int csize, ksize, pkey, counter = 0;
+    char huruf, a[26] = { 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z', };
+    string key, ciphertext;
+
+    cout << "\nCipher Text          : ";
+    cin >> ciphertext;
+    cout << "Key                  : ";
+    cin >> key;
+
+    int nampungcip[100], nampungkey[100];  // nampung huruf
+
+    pkey = 0;
+    csize = ciphertext.size(); // ukuran dari ciphertext size
+    ksize = key.size(); // ukuran dari key size
+
+    while (ksize < csize) { // selama size key lebih kecil daripada ciphertext
+        key = key + key[pkey];
+        pkey += 1;
+        ksize = key.size();
+    }
+
+    if (ksize > csize) { // selama size key lebih besar daripada ciphertext
+        key = key.erase(ksize, 1);
+        ksize -= 1;
+        ksize = key.size();
+    }
+
+    for (int i = 0; i < csize; i++) {
+        for (int j = 0; j < 26; j++) {
+
+            if (ciphertext[i] == a[j]) {
+                nampungcip[i] = j;
+                break;
+            }
+        }
+    }
+
+    for (int i = 0; i < csize; i++) {
+        for (int j = 0; j < 26; j++) {
+
+            if (key[i] == a[j]) {
+                nampungkey[i] = j;
+                break;
+            }
+        }
+    }
+
+    cout << "\nHasil Dekripsi       : ";
+    for (int k = 0; k != csize; k++) {
+        if (nampungcip[counter] - nampungkey[counter] < 0) {
+            nampungcip[counter] = (nampungcip[counter] - nampungkey[counter]) + 26;
+        }
+        else {
+            nampungcip[counter] = nampungcip[counter] - nampungkey[counter];
+        }
+        cout << a[nampungcip[counter]] << ' ';
+        counter += 1;
+        
+    }
+}
+
+
+void enkripsi() {
+    int psize, ksize, pkey, counter = 0;
+    char huruf, a[26] = { 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z', };
+    string key, plaintext;
+
+    cout << "\nPlain Text          : ";
+    cin >> plaintext;
+    cout << "Key                 : ";
+    cin >> key;
+
+    int nampungplain[100] , nampungkey[100];
+
+    pkey = 0;
+    psize = plaintext.size();
+    ksize = key.size();
+
+    while (ksize < psize) {
+        key = key + key[pkey];
+            pkey += 1;
+            ksize = key.size();
+    }
+
+    if (ksize > psize) {
+        key = key.erase(ksize, 1);
+        ksize -= 1;
+        ksize = key.size();
+    }
+        
+    for (int i = 0; i < psize; i++) { // utk loop sebanyak plaintext 
+        for (int j = 0; j < 26; j++) { // counter utk mengubah plaintext menjadi angka
+
+            if (plaintext[i] == a[j]) { // konversi plaintext menjadi angka
+                nampungplain[i] = j;
+                break;
+            }
+        }
+    }
+           
+    for (int i = 0; i < psize; i++) { // utk loop sebanyak key 
+        for (int j = 0; j < 26; j++) { // counter utk mengubah key menjadi angka
+
+            if (key[i] == a[j]) {
+                nampungkey[i] = j;
+                break;
+            }
+        }
+    }
+    
+    cout << "\nHasil Enkripsi      :";
+    for (int k = 0; k != psize; k++) {
+
+        if (nampungplain[counter] + nampungkey[counter] > 25) { // counter = kalkulasi angka plaintext dengan angka key
+            nampungplain[counter] = (nampungplain[counter] + nampungkey[counter]) - 26; // apabila lebih dari counter angka > 25 maka kurang 26
+        }
+        else {
+            nampungplain[counter] = nampungplain[counter] + nampungkey[counter];
+        }
+        cout << a[nampungplain[counter]] << ' ';
+        counter += 1; // counter harus bergerak + = 1 
+
+    }   
+}
+        
+int main()
+{
+    int pilihan;
+    cout << "Enkripsi - Dekripsi Console Application\n ";
+    cout << "1.Enkripsi\n ";
+    cout << "2.Dekripsi\n";
+    cout << "Masukkan pilihan Anda : ";
+    cin >> pilihan;
+    if (pilihan == 1) {
+        enkripsi();
+    }
+    else if (pilihan == 2) {
+        dekripsi();
+    }
+    else {
+        cout << "Pilihan nya Ga Tersedia gan! \n";
+    }
+}
+         
