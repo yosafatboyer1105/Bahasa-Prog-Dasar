@@ -1,0 +1,73 @@
+C++ Project, the project is about making a console program that can predict or guessing a number based from your input. 
+Using if and else to predict the number, and binary searching sequence. 
+
+
+// 1 FILES, MAIN FILES. 
+
+#include <iostream> // lib biasa utk cout dan cin
+#include <cstdlib> // lib utk rand
+#include <conio.h> 
+#include <ctime> // lib time di c++ dengan srand
+#include <stdio.h>
+using namespace std;
+
+
+void delay() {
+	int delay = 1;
+	while (delay < 600000000) {
+		delay++; // 300000000 = 1 detik, 2 detik = 6 juta
+	}
+}
+
+
+void rule() { // fungsi rule peraturan
+	cout << "\n Guess the number game!"; delay();
+	cout << "\n here is the rule"; delay();
+	cout << "\n 1.pick any number from 0-100! "; delay();
+	cout << "\n 2.i will guess the number, if its right type yes[y], if its wrong type no[n]! "; delay();
+	cout << "\n 3.if no you must tell me whether the number is higher or lower from my guessing! "; delay();
+	delay();
+	cout << "\n 4.i will keep guessing your number until i get it right "; delay();
+	cout << "\n 5.lets see ho much guessing i can make "; delay();
+	cout << "\n Ready? "; delay();
+}
+
+int main() {
+	int userNumber, attempt = 0,// tipe data utk angka tebakan
+	char jawab, batas;
+	srand((unsigned)time(0)); // fungsi random dengan selang waktu
+	int angkaTebakan = (rand() % 100)+ 1;
+	int BatasBawah = 0, BatasAtas = 100;
+
+	rule();// menampilkan aturan utk game nya di main program
+	cout << "\n Now pick a number from 1-100! "; cin >> userNumber; // input pada angka tebakkan 
+
+	while (jawab != 'y') {
+		cout << "\n Your number is :" << angkaTebakan;
+		cout << "\n Yes[y] or No[n]: ";
+		cin >> jawab;
+
+		if (jawab == 'n') {
+			cout << "\n is it lower[L] or higher[H] ? ";
+			cin >> batas;
+
+			if (batas == 'L') {
+				BatasAtas = angkaTebakan - 1;
+			}
+			else if (batas == 'H') {
+				BatasBawah = angkaTebakan + 1;
+			}
+			else {
+				cout << "your input is wrong! ";
+				break;
+			}
+		}
+		else {
+			break;
+		}
+	}
+	return 0;
+} 
+
+
+
