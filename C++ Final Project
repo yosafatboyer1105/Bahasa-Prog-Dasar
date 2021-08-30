@@ -1,0 +1,306 @@
+C++ Project, the project is about making a program that can perform various types of commands, including : 
+- Number conversion. 
+- Generate a fibonacci sequence. 
+- Making a diamond shaped triangle.
+- Doing a quiz that can generate your grades. 
+
+
+// 1 FILES, MAIN FILES. 
+
+#include <iostream>
+#include <string.h> // lib untuk pemanggilan fungsi string dan array 
+#include <cstdlib> // lib untuk random question
+#include <ctime> // lib untuk srand
+#include <locale> // arraystruct (pemanggilan) // toupper library 
+using namespace std;
+
+int biner(long dec) { // parameter dec = desimal 
+	int a, b;
+	if (dec <= 1) {
+		cout << dec;
+		return 0;
+	}
+  
+	a = dec % 2; // sisanya dicetak dari bawah 
+	b = dec / 2;
+	biner(b);
+	cout << a;
+	return 0;
+}
+
+int octal(long dec) { // parameter decimal
+	int a, b;
+	if (dec <= 1) {
+		cout << dec;
+		return 0;
+	}
+  
+	a = dec % 8;
+	b = dec / 8;
+	cout << b << a;
+	return 0;
+}
+
+int hexadecimal(long dec) { // parameter decimal (long dec) , membawa nilai decimal dari main function
+	int a;
+	char hex[16];
+	a = 0;
+	while (dec > 0)
+	{
+		switch (dec % 16)
+		{
+		case 10:hex[a] = 'A'; break;
+		case 11:hex[a] = 'B'; break;
+		case 12:hex[a] = 'C'; break;
+		case 13:hex[a] = 'D'; break;
+		case 14:hex[a] = 'E'; break;
+		case 15:hex[a] = 'F'; break;
+		default:hex[a] = (dec % 16) + 0x30;
+		}
+    
+		dec = dec / 16;
+		a++;
+    
+	}
+	for (int i = a - 1; i >= 0; i--) // biar ga ada 0 di depan nya 
+	{
+		cout << hex[i];
+	}
+	return 0;
+}
+
+int konverter() { // main function
+	int angka;
+	cout << "\nAngka Decimal : "; cin >> angka;
+	while (angka < 0)
+	{
+		cout << "\nMinimal angka harus 0!\nMasukkan Bilangan : "; cin >> angka;
+	}
+	cout << "Decimal to Binary         : "; biner(angka); // angka yg kita masukkan disimpan di variabel angka, 
+	cout << "\nDecimal to Octal          : "; octal(angka); // proses kalkulasi pada function diatas berdasar pada variabel angka 
+	cout << "\nDecimal to Hexadecimal    : "; hexadecimal(angka); // variabel angka membawa isi dalam nya ke parameter long dec, sebagai dasar kalkulasi pada setiap function
+	return 0;
+}
+
+int fibonacci() {                            // function no 2
+	int n, num1 = 1, num2 = 1, nextnum = 0;    
+	cout << "\nMasukkan angka anda: ";        // num saya set ke 1, biar mulai cetak indeks dari 1 aja, gausah dari 0
+	cin >> n;
+	cout << "Deret Fibonacci nya adalah: ";
+	for (int i = 1; i <= n; i++) { // i nya jalan cmn sampe <= n aja
+		if (i == 1) {
+			cout << num1 << " "; // cetak 1
+			continue;
+		}
+		if (i == 2) {
+			cout << num2 << " "; // cetak 1
+			continue;
+		}
+		nextnum = num1 + num2; // angka sebelumnya ditambah angka yg sekarang, jadi hasil angka selanjutnya itu based on kalkulasi terakhir
+		num1 = num2; 
+		num2 = nextnum;
+		cout << nextnum << " ";
+	}
+	return 0;
+}
+
+void loopingsegitiga() {  // procedure no 3 
+	int i, j, n;
+	cout << "Masukkan tinggi Segitiga :";     
+	cin >> n;
+	for (i = 1; i <= n; i++) { // upper triangle 
+		for (j = i; j <= n; j++) { // deret segitiga bagian atas kiri 
+			cout << "*";                                                    // selang seling antara bintang dan gap kosong 
+		}
+		for (j = 0; j <= (2 * i - 2); j++) {           // kosongan segitiga bagian atas
+			cout << " ";
+		}
+		for (j = i; j <= n; j++) { // deret segitiga bagian atas kanan 
+			cout << "*";
+		}
+		cout << "\n";
+	}
+  
+	for (i = 1; i <= n; i++) {  // lower triangle 
+		for (j = 1; j <= i; j++) {          // deret segitiga bagian bawah kiri 
+			cout << "*";
+		}
+		for (j = (2 * i - 2); j < (2 * n - 1); j++) {   // kosongan segitiga bagian bawah 
+			cout << " ";
+		}
+		for (j = 1; j <= i; j++) {         // deret segitiga bagian bawah kanan
+			cout << "*";
+		}
+		cout << "\n";
+	}
+}
+
+struct banksoal {
+	int nomorsoal;    // soal 1 2 3 4 5 6 7 8 9 10, random pick yg jalan 5 aja
+	string soal; // soal nya 
+	string opsiA; // pilihan jawaban 1
+	string opsiB; // ( 1234 berupa serangkaian kata )
+	string opsiC; 
+	string opsiD; 
+	char jawaban; // huruf alfabet yg dijadikan pilihan jawaban
+}bank[10];
+
+struct user {
+	int jawabanBenar;  // kunci jawabannya 
+	char jawabanUser;  // jawaban user
+	int benar, nilai; 
+}jawabanUser[5];
+
+void inputsoal() {
+	for (int i = 1; i <= 10; i++) {
+		bank[i - 1].nomorsoal = 1;
+	}
+	//soal1
+	bank[0].soal = "Dalam menyusun suatu program, langkah pertama yang harus dilakukan adalah...";
+	bank[0].opsiA = "Mempelajari program";
+	bank[0].opsiB = "Membeli Buku";
+	bank[0].opsiC = "Membuat algoritma";
+	bank[0].opsiD = "Membeli komputer";
+	bank[0].jawaban = 'C';
+
+	//soal2
+	bank[1].soal = "Model penulisan dan perancangan algoritma menggunakan simbol bangun ruang dalam mempresentasikan proses program disebut....";
+	bank[1].opsiA = "Flowchart";
+	bank[1].opsiB = "Bahasa indonesia";
+	bank[1].opsiC = "Bahasa barat";
+	bank[1].opsiD = "Looping";
+	bank[1].jawaban = 'A';
+
+	//soal3
+	bank[2].soal = "Yang termasuk ke dalam jenis algoritma percabangan adalah...";
+	bank[2].opsiA = "Int main";
+	bank[2].opsiB = "If Else";
+	bank[2].opsiC = "While";
+	bank[2].opsiD = "Void";
+	bank[2].jawaban = 'B';
+
+	//soal4
+	bank[3].soal = "Yang termasuk ke dalam jenis algoritma perulangan adalah...";
+	bank[3].opsiA = "Int main";
+	bank[3].opsiB = "If Else";
+	bank[3].opsiC = "Do While";
+	bank[3].opsiD = "Void";
+	bank[3].jawaban = 'C';
+
+	//soal5
+	bank[4].soal = "Yang menunjukan awal dan akhir pada sebuah flowchart adalah....";
+	bank[4].opsiA = "Data flow";
+	bank[4].opsiB = "Data";
+	bank[4].opsiC = "Proses";
+	bank[4].opsiD = "Terminator";
+	bank[4].jawaban = 'D';
+
+	//soal6
+	bank[5].soal = "Bentuk belah ketupat pada diagram flowchart diberi nama...";
+	bank[5].opsiA = "Proses";
+	bank[5].opsiB = "Decision";
+	bank[5].opsiC = "Enkripsi";
+	bank[5].opsiD = "Data";
+	bank[5].jawaban = 'B';
+
+	//soal7
+	bank[6].soal = "Dibawah ini merupakan tipe data bilangan bulat adalah...";
+	bank[6].opsiA = "Int";
+	bank[6].opsiB = "Char";
+	bank[6].opsiC = "Double";
+	bank[6].opsiD = "Float";
+	bank[6].jawaban = 'A';
+
+	//soal8
+	bank[7].soal = "Operator logika yang menyatakan (dan) dalam lambang berikut ini adalah...";
+	bank[7].opsiA = "\\";
+	bank[7].opsiB = ">>";
+	bank[7].opsiC = "&&";
+	bank[7].opsiD = "<<";
+	bank[7].jawaban = 'C';
+
+	//soal9
+	bank[8].soal = "Operator logika yang menyatakan (atau) dalam lambang berikut ini adalah...";
+	bank[8].opsiA = "||";
+	bank[8].opsiB = "&&";
+	bank[8].opsiC = "<<";
+	bank[8].opsiD = ">>";
+	bank[8].jawaban = 'A';
+
+	//soal10
+	bank[9].soal = "Yang bukan termasuk jenis operator yaitu...";
+	bank[9].opsiA = "Penambahan";
+	bank[9].opsiB = "Pengurangan";
+	bank[9].opsiC = "Logika";
+	bank[9].opsiD = "Variabel";
+	bank[9].jawaban = 'D';
+}
+void Kerjakankuis() {
+	int soal, i, benar = 0, nilai = 0;
+	char jawab;
+	inputsoal();
+	for (i = 0; i < 5; i++) {
+		srand(time(0));
+		soal = (rand() % 10);
+		bank[i].nomorsoal = i + 1;
+		cout << "\n";
+		cout << bank[i].nomorsoal << "." << bank[soal].soal << endl;
+		cout << "A. " << bank[soal].opsiA << endl;
+		cout << "B. " << bank[soal].opsiB << endl;
+		cout << "C. " << bank[soal].opsiC << endl;
+		cout << "D. " << bank[soal].opsiD << endl;
+		cout << "Jawaban Anda : ";
+		cin >> jawabanUser[i].jawabanUser;
+		jawabanUser[i].jawabanUser = (toupper(jawabanUser[i].jawabanUser));
+		jawabanUser[i].jawabanBenar = bank[soal].jawaban;
+		if (jawabanUser[i].jawabanUser == bank[soal].jawaban)
+		{
+			jawabanUser[i].benar++;
+			jawabanUser[i].nilai += 20;
+		}
+		benar += jawabanUser[i].benar;
+		nilai += jawabanUser[i].nilai;
+	}
+	cout << "Anda berhasil menjawab " << benar; cout << " soal dengan Benar."; cout << " Nilai anda adalah : " << nilai << endl;
+}
+
+int main() // 38 / 37 baris
+{
+	int pil;
+	char ulang = 'y';
+	while (ulang == 'y') {
+		system("cls");
+		cout << "===================================" << "\n";
+		cout << "       Belajar Informatika         " << "\n";
+		cout << "===================================" << "\n";
+		cout << "1. Konversi Angka\n2. Deret Fibonacci\n3. Looping Segitiga\n4. Kerjakan Kuis\n5. Exit\n";
+		cout << "Pilihan Anda :"; cin >> pil;
+		switch (pil) {
+		case 1:
+			cout << "Decimal to Binary, Octal, Hexadecimal";
+			konverter();
+			cout << "\n" << "\nKembali ke menu awal [y/n]?"; cin >> ulang;
+			break;
+		case 2:
+			fibonacci();
+			cout << "\n" << "\nKembali ke menu awal [y/n]?"; cin >> ulang;
+			break;
+		case 3:
+			loopingsegitiga();
+			cout << "\n" << "\nKembali ke menu awal [y/n]?"; cin >> ulang;
+			break;
+		case 4:
+			Kerjakankuis();
+			cout << "\n" << "\nKembali ke menu awal [y/n]?"; cin >> ulang;
+			break;
+		case 5:
+			ulang = 'n';
+			break;
+		default:
+			cout << "Maaf pilihan hanya (1-5) aja ";
+			cout << "\n" << "Silahkan masukan Pilihan anda kembali [y/n] : "; cin >> ulang;
+		}
+	}
+	cout << "Terima Kasih udah Mampir - Kelompok 10";
+}
+
